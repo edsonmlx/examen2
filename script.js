@@ -1,11 +1,16 @@
 let db
-const request = indexedDB.open("EscuelaBaileDB", 2)
+const request = indexedDB.open("EscuelaBaileDB", 3)
+
 request.onupgradeneeded = e => {
   db = e.target.result
-  if (!db.objectStoreNames.contains("alumnos")) db.createObjectStore("alumnos", { keyPath: "id", autoIncrement: true })
-  if (!db.objectStoreNames.contains("clases")) db.createObjectStore("clases", { keyPath: "id", autoIncrement: true })
-  if (!db.objectStoreNames.contains("emparejamientos")) db.createObjectStore("emparejamientos", { keyPath: "id", autoIncrement: true })
+  if (!db.objectStoreNames.contains("alumnos"))
+    db.createObjectStore("alumnos", { keyPath: "id", autoIncrement: true })
+  if (!db.objectStoreNames.contains("clases"))
+    db.createObjectStore("clases", { keyPath: "id", autoIncrement: true })
+  if (!db.objectStoreNames.contains("emparejamientos"))
+    db.createObjectStore("emparejamientos", { keyPath: "id", autoIncrement: true })
 }
+
 request.onsuccess = e => {
   db = e.target.result
   cargarAlumnos()
@@ -13,10 +18,19 @@ request.onsuccess = e => {
   cargarEmparejamientos()
 }
 
+request.onerror = () => alert("Error al abrir la base de datos")
+
 const formAlumno = document.getElementById("form-alumno")
 const listaAlumnos = document.getElementById("lista-alumnos")
+const formClase = document.getElementById("form-clase")
+const listaClases = document.getElementById("lista-clases")
+const selectAlumno = document.getElementById("select-alumno")
+const selectClase = document.getElementById("select-clase")
+const listaEmparejamientos = document.getElementById("lista-emparejamientos")
+const formEmparejar = document.getElementById("form-emparejar")
+const btnLimpiarEmp = document.getElementById("limpiar-emparejamientos")
 
-formAlumno?.addEventListener("submit", e => {
+formAlumno.addEventListener("submit", e => {
   e.preventDefault()
   const nombre = document.getElementById("nombre-alumno").value.trim()
   const edad = document.getElementById("edad-alumno").value.trim()
@@ -38,11 +52,15 @@ function cargarAlumnos() {
     e.target.result.forEach(a => {
       const li = document.createElement("li")
       li.classList.add("item")
-      li.innerHTML = `${a.nombre} (${a.edad} años) - ${a.correo}
+      li.innerHTML = `
+        <div class="datos">
+          <strong>${a.nombre}</strong> (${a.edad} años)<br>${a.correo}
+        </div>
         <div class="acciones">
           <button class="accion_btn editar" onclick="editarAlumno(${a.id})">Editar</button>
           <button class="accion_btn eliminar" onclick="eliminarAlumno(${a.id})">Eliminar</button>
-        </div>`
+        </div>
+      `
       listaAlumnos.appendChild(li)
     })
     actualizarSelects()
@@ -72,17 +90,16 @@ function editarAlumno(id) {
   }
 }
 
-const formClase = document.getElementById("form-clase")
-const listaClases = document.getElementById("lista-clases")
-
-formClase?.addEventListener("submit", e => {
+formClase.addEventListener("submit", e => {
   e.preventDefault()
   const nombre = document.getElementById("nombre-clase").value.trim()
   const nivel = document.getElementById("nivel-clase").value.trim()
   const profesor = document.getElementById("profesor-clase").value.trim()
-  if (!nombre || !nivel || !profesor) return
+  const horario = document.getElementById("horario-clase").value.trim()
+  const duracion = document.getElementById("duracion-clase").value.trim()
+  if (!nombre || !nivel || !profesor || !horario || !duracion) return
   const tx = db.transaction("clases", "readwrite")
-  tx.objectStore("clases").add({ nombre, nivel, profesor })
+  tx.objectStore("clases").add({ nombre, nivel, profesor, horario, duracion })
   tx.oncomplete = () => {
     formClase.reset()
     cargarClases()
@@ -97,11 +114,18 @@ function cargarClases() {
     e.target.result.forEach(c => {
       const li = document.createElement("li")
       li.classList.add("item")
-      li.innerHTML = `${c.nombre} (${c.nivel}) - Prof: ${c.profesor}
+      li.innerHTML = `
+        <div class="datos">
+          <strong>${c.nombre}</strong> (${c.nivel})<br>
+          Prof: ${c.profesor}<br>
+          Horario: ${c.horario}<br>
+          Duración: ${c.duracion}
+        </div>
         <div class="acciones">
           <button class="accion_btn editar" onclick="editarClase(${c.id})">Editar</button>
           <button class="accion_btn eliminar" onclick="eliminarClase(${c.id})">Eliminar</button>
-        </div>`
+        </div>
+      `
       listaClases.appendChild(li)
     })
     actualizarSelects()
@@ -118,7 +142,9 @@ function editarClase(id) {
   const nuevoNombre = prompt("Nuevo nombre:")
   const nuevoNivel = prompt("Nuevo nivel:")
   const nuevoProfesor = prompt("Nuevo profesor:")
-  if (!nuevoNombre || !nuevoNivel || !nuevoProfesor) return
+  const nuevoHorario = prompt("Nuevo horario:")
+  const nuevaDuracion = prompt("Nueva duración:")
+  if (!nuevoNombre || !nuevoNivel || !nuevoProfesor || !nuevoHorario || !nuevaDuracion) return
   const tx = db.transaction("clases", "readwrite")
   const store = tx.objectStore("clases")
   store.get(id).onsuccess = e => {
@@ -126,16 +152,14 @@ function editarClase(id) {
     clase.nombre = nuevoNombre
     clase.nivel = nuevoNivel
     clase.profesor = nuevoProfesor
+    clase.horario = nuevoHorario
+    clase.duracion = nuevaDuracion
     store.put(clase)
     tx.oncomplete = cargarClases
   }
 }
 
-const selectAlumno = document.getElementById("select-alumno")
-const selectClase = document.getElementById("select-clase")
-const listaEmparejamientos = document.getElementById("lista-emparejamientos")
-
-document.getElementById("form-emparejar")?.addEventListener("submit", e => {
+formEmparejar.addEventListener("submit", e => {
   e.preventDefault()
   const alumnoId = parseInt(selectAlumno.value)
   const claseId = parseInt(selectClase.value)
@@ -143,6 +167,13 @@ document.getElementById("form-emparejar")?.addEventListener("submit", e => {
   const tx = db.transaction("emparejamientos", "readwrite")
   tx.objectStore("emparejamientos").add({ alumnoId, claseId })
   tx.oncomplete = cargarEmparejamientos
+})
+
+btnLimpiarEmp.addEventListener("click", () => {
+  const tx = db.transaction("emparejamientos", "readwrite")
+  const store = tx.objectStore("emparejamientos")
+  const clearReq = store.clear()
+  clearReq.onsuccess = cargarEmparejamientos
 })
 
 function cargarEmparejamientos() {

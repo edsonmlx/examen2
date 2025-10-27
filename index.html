@@ -1,98 +1,124 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Escuela de Baile Ritmo & Sabor</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Escuela de Baile</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="contenedor">
+
     <header class="header_principal">
       <div class="logo">
-        <img src="img/sabor.png" alt="Logo Escuela" class="logo_img" />
+        <img src="img/sabor.png" alt="Logo" class="logo_img" />
         <div class="logo_texto">
-          <span class="nombre_escuela">Escuela de Baile Ritmo & Sabor</span><br />
-          <span class="tagline">Salsa • Bachata • Merengue</span>
+          <div class="nombre_escuela">Escuela de Baile</div>
+          <div class="tagline">Salsa · Bachata · Merengue</div>
         </div>
       </div>
-      <nav>
+
+      <nav class="header_nav">
         <ul class="nav_lista">
-          <li><a href="#">Inicio</a></li>
-          <li><a href="#">Clases</a></li>
-          <li><a href="#">Nosotros</a></li>
-          <li><a href="#">Iniciar Sesión</a></li>
-          <li><a href="#" class="boton_registro">Registrarse</a></li>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#clases_ofrecemos">Clases</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#iniciar_sesion">Iniciar sesión</a></li>
+          <li><a href="#registrarse" class="boton_registro">Registrarse</a></li>
         </ul>
       </nav>
     </header>
 
-    <section class="hero">
-      <h1 class="hero_titulo">Escuela de Baile Sabor</h1>
-      <p class="hero_subtitulo">Aprende Salsa, Bachata, Merengue y mucho más</p>
+    <section id="inicio" class="hero">
+      <h1 class="hero_titulo">Escuela de Baile</h1>
+      <p class="hero_subtitulo">Aprende Salsa, Bachata, Merengue y más con los mejores instructores</p>
     </section>
 
     <section class="seccion_crud">
-      <div class="columna_crud">
+      <aside class="columna_crud">
         <div class="bloque">
-          <div class="bloque_titulo">Registro de Alumnos</div>
-          <form id="form-alumno" class="formulario">
-            <label>Nombre</label>
+          <h3 class="bloque_titulo">Registro de Alumnos</h3>
+          <form id="form-alumno" class="formulario" autocomplete="off">
+            <label for="nombre-alumno">Nombre</label>
             <input type="text" id="nombre-alumno" />
-            <label>Edad</label>
+
+            <label for="edad-alumno">Edad</label>
             <input type="number" id="edad-alumno" />
-            <label>Correo</label>
+
+            <label for="correo-alumno">Correo</label>
             <input type="email" id="correo-alumno" />
+
             <div class="botonera">
               <button class="boton_principal" type="submit">Guardar</button>
               <button class="boton_secundario" type="reset">Limpiar</button>
             </div>
           </form>
+
           <div class="lista_contenedor">
             <div class="lista_header">Lista de Alumnos</div>
             <ul id="lista-alumnos" class="lista"></ul>
           </div>
         </div>
-      </div>
+      </aside>
 
-      <div class="columna_crud">
+      <aside class="columna_crud">
         <div class="bloque">
-          <div class="bloque_titulo">Registro de Clases</div>
-          <form id="form-clase" class="formulario">
-            <label>Nombre</label>
+          <h3 class="bloque_titulo">Registro de Clases</h3>
+          <form id="form-clase" class="formulario" autocomplete="off">
+            <label for="nombre-clase">Nombre</label>
             <input type="text" id="nombre-clase" />
-            <label>Nivel</label>
-            <input type="text" id="nivel-clase" />
-            <label>Profesor</label>
+
+            <label for="nivel-clase">Nivel</label>
+            <select id="nivel-clase">
+              <option value="">Selecciona un nivel</option>
+              <option value="Básico">Básico</option>
+              <option value="Intermedio">Intermedio</option>
+              <option value="Avanzado">Avanzado</option>
+            </select>
+
+            <label for="profesor-clase">Profesor</label>
             <input type="text" id="profesor-clase" />
+
+            <label for="horario-clase">Horario</label>
+            <input type="text" id="horario-clase" placeholder="Ej: Lun y Mié 18:00 - 19:30" />
+
+            <label for="duracion-clase">Duración</label>
+            <input type="text" id="duracion-clase" placeholder="Ej: 1h 30m" />
+
             <div class="botonera">
               <button class="boton_principal" type="submit">Guardar</button>
               <button class="boton_secundario" type="reset">Limpiar</button>
             </div>
           </form>
+
           <div class="lista_contenedor">
             <div class="lista_header">Lista de Clases</div>
             <ul id="lista-clases" class="lista"></ul>
           </div>
         </div>
-      </div>
+      </aside>
     </section>
-
 
     <section class="seccion_emparejar">
       <div class="emparejar_bloque">
-        <h2 class="bloque_titulo">Emparejar Alumnos con Clases</h2>
+        <h3 class="bloque_titulo">Emparejar Alumno ↔ Clase</h3>
         <form id="form-emparejar" class="form_emparejar">
           <div class="fila_emparejar">
-            <label>Alumno</label>
-            <select id="select-alumno"></select>
+            <label for="select-alumno">Alumno</label>
+            <select id="select-alumno"><option value="">Seleccionar alumno</option></select>
           </div>
+
           <div class="fila_emparejar">
-            <label>Clase</label>
-            <select id="select-clase"></select>
+            <label for="select-clase">Clase</label>
+            <select id="select-clase"><option value="">Seleccionar clase</option></select>
           </div>
-          <button class="boton_principal" type="submit">Emparejar</button>
+
+          <div class="botonera centro_botonera">
+            <button class="boton_principal" type="submit">Emparejar</button>
+            <button class="boton_secundario" type="button" id="limpiar-emparejamientos">Limpiar lista</button>
+          </div>
         </form>
+
         <div class="lista_emparejamientos">
           <div class="lista_header">Emparejamientos</div>
           <ul id="lista-emparejamientos" class="lista"></ul>
@@ -100,42 +126,46 @@
       </div>
     </section>
 
-    <section class="tarjetas_bloque">
-      <h2 class="bloque_titulo">Clases que Ofrecemos</h2>
+    <section id="clases_ofrecemos" class="tarjetas_bloque">
+      <h3 class="bloque_titulo">Clases que Ofrecemos</h3>
       <div class="tarjetas_grid">
-        <div class="tarjeta">
-          <div class="tarjeta_img"><img src="img/Adrian-y-Anita4069.jpg" alt="Salsa"></div>
-          <div class="tarjeta_texto"><strong>Salsa</strong><p>Aprende los pasos clásicos y modernos de la salsa.</p></div>
-        </div>
-        <div class="tarjeta">
+        <article class="tarjeta">
+          <div class="tarjeta_img"><img src="img/salsa.jpg" alt="Salsa"></div>
+          <div class="tarjeta_texto"><strong>Salsa</strong><p>Ritmos y técnica para todos los niveles.</p></div>
+        </article>
+
+        <article class="tarjeta">
           <div class="tarjeta_img"><img src="img/bachata.jpg" alt="Bachata"></div>
-          <div class="tarjeta_texto"><strong>Bachata</strong><p>Descubre la sensualidad de la bachata dominicana.</p></div>
-        </div>
-        <div class="tarjeta">
+          <div class="tarjeta_texto"><strong>Bachata</strong><p>Conexión y musicalidad en pareja.</p></div>
+        </article>
+
+        <article class="tarjeta">
           <div class="tarjeta_img"><img src="img/merengue.jpeg" alt="Merengue"></div>
-          <div class="tarjeta_texto"><strong>Merengue</strong><p>Ritmo alegre y dinámico para todos los niveles.</p></div>
-        </div>
-        <div class="tarjeta">
+          <div class="tarjeta_texto"><strong>Merengue</strong><p>Movimiento alegre y dinámico.</p></div>
+        </article>
+
+        <article class="tarjeta">
           <div class="tarjeta_img"><img src="img/kizomba.jpg" alt="Kizomba"></div>
-          <div class="tarjeta_texto"><strong>Kizomba</strong><p>Fusión africana de elegancia y conexión corporal.</p></div>
-        </div>
+          <div class="tarjeta_texto"><strong>Kizomba</strong><p>Elegancia y conexión corporal.</p></div>
+        </article>
       </div>
     </section>
 
-    <footer class="footer_principal">
+    <footer class="footer_principal" id="nosotros">
       <div class="footer_col">
         <div class="footer_titulo">Redes y Contacto</div>
         <div class="redes">
-          <a href="https://wa.me/59100000000" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp"></a>
-          <a href="https://www.youtube.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
-          <a href="https://www.tiktok.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"></a>
-          <a href="https://www.google.com/maps/search/?api=1&query=El+Alto+La+Paz+Bolivia" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Maps"></a>
+          <a href="https://wa.me/59100000000" target="_blank" title="WhatsApp"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp"></a>
+          <a href="https://www.youtube.com" target="_blank" title="YouTube"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
+          <a href="https://www.tiktok.com" target="_blank" title="TikTok"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"></a>
+          <a href="https://www.google.com/maps/search/?api=1&query=El+Alto+La+Paz+Bolivia" target="_blank" title="Maps"><img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Maps"></a>
         </div>
       </div>
 
       <div class="footer_col">
         <div class="footer_titulo">Ubicación</div>
         <div class="footer_texto">Satelite, El Alto, La Paz, Bolivia</div>
+        <a class="map_btn" href="https://www.google.com/maps/search/?api=1&query=El+Alto+La+Paz+Bolivia" target="_blank">Abrir en Maps</a>
       </div>
 
       <div class="footer_col">
@@ -147,13 +177,15 @@
       <div class="footer_col">
         <div class="footer_titulo">Suscríbete</div>
         <div class="footer_texto">Recibe promociones y eventos.</div>
-        <form id="form_newsletter" class="form_newsletter">
+        <form id="form_newsletter" class="form_newsletter" onsubmit="return false;">
           <input id="newsletter_email" type="email" placeholder="tu@ejemplo.com" required>
           <button id="boton_newsletter" class="boton_principal">ENVIAR</button>
         </form>
       </div>
     </footer>
+
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
