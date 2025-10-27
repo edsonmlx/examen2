@@ -431,3 +431,37 @@ select:focus {
     flex-direction: column;
   }
 }
+
+@media (max-width: 850px) {
+  .header_principal {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .logo {
+    flex-direction: column;
+  }
+
+  .logo_img {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 6px;
+  }
+
+  .nav_lista {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .nav_lista a {
+    display: inline-block;
+    padding: 8px 10px;
+  }
+
+  .boton_registro {
+    margin-top: 6px;
+  }
+}
